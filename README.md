@@ -1,5 +1,5 @@
 ## daken.js
-Simple library of typing effect
+Simple javascript library of typing effect.
 
 ## example
 
