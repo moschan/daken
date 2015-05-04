@@ -4,7 +4,7 @@ Simple javascript library of typing effect.
 ## example
 
 ```JS
-  var daken = require('../index.js');
+  var daken = require('daken');
   daken.run();
 ```
 
