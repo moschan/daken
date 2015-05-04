@@ -13,7 +13,6 @@ Simple javascript library of typing effect.
   <a href="/" data-daken>こんにちは、世界</a>
 ```
 
-
 ## methods
 
 ### run([selector], [options], [callback])
@@ -32,6 +31,7 @@ Simple javascript library of typing effect.
 ```
 
 ## install
+npm install daken
 
 ## license
 MIT

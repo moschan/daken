@@ -1,0 +1,23 @@
+{
+  "name": "daken",
+  "version": "1.0.0",
+  "description": "Simple javascript library of typing effect.",
+  "main": "index.js",
+  "directories": {
+    "example": "example",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moschan/daken.git"
+  },
+  "author": "moschan <kaityo02＠gmail.com> (http://moschan.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/moschan/daken/issues"
+  },
+  "homepage": "https://github.com/moschan/daken"
+}
