@@ -1,6 +1,8 @@
 ## daken.js
 Simple javascript library of typing effect.
 
+[![Build Status](https://travis-ci.org/moschan/daken.svg)](https://travis-ci.org/moschan/daken)
+
 ## example
 
 ```JS

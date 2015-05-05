@@ -8,7 +8,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tape test/index.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/moschan/daken/issues"
   },
-  "homepage": "https://github.com/moschan/daken"
+  "homepage": "https://github.com/moschan/daken",
+  "devDependencies": {
+    "tape": "^4.0.0"
+  }
 }
