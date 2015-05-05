@@ -4,19 +4,15 @@ var daken = require('../index.js');
 daken.run();
 
 },{"../index.js":2}],2:[function(require,module,exports){
-module.exports = {
+'use strict';
 
-    /**
-    * Simple library of typing effect
-    *
-    *
-    * @param  {string} selector
-    * @param  {object} param
-    * @param  {function} callback
-    * @return void
-    */
+/**
+* Simple library of typing effect
+*
+*/
+var daken = {
 
-    // Defaults param
+    // Default params
     DEFAULT_PARAM: {
       typeSpeed         : 100,
       callbackDelay     : 0,
@@ -26,65 +22,96 @@ module.exports = {
 
     param: null,
 
+    /**
+    * @param  {element} el
+    * @param  {object} param
+    * @return {void}
+    */
     _blink: function(el, param) {
       var that = this;
       el.style.opacity = !parseInt(el.style.opacity) ? 1 : 0;
       var timeout = setTimeout(function(){that._blink(el, param);}, param.blinkInterval);
     },
 
+    /**
+    * @param  {object} default_param
+    * @param  {object} compare
+    * @return {object}
+    */
     _objctUpdate:  function ( default_param, compare ) {
       if (typeof(compare) !== 'object') return default_param;
       var key, returnValue = {};
       for ( key in default_param ) {
-          if ( key in compare ) {
-              returnValue[key] = compare[key];
-          }
-          else {
-              returnValue[key] = default_param[key];
-          }
+        returnValue[key] = key in compare ? compare[key] : default_param[key];
       }
       return returnValue;
     },
 
-    run: function (target, param, callback) {
-      var that = this;
+    /**
+    * @param  {string}|{object} selector or param
+    * @param  {object} param
+    * @return void
+    */
+    _checkParam: function (target, param) {
       param = typeof(target) === 'object' ? target : undefined;
       param = this._objctUpdate(this.DEFAULT_PARAM, param);
-      target = typeof(target) === 'string' ? target : '[' + param.dakenDataAttr + ']';
-      var target_dom = document.querySelectorAll(target) ;
-      var daken_timer = '';
-      var daken_timers = [];
-      var dake_cursor = '<span class="daken-cursor">|</span>';
+      return param;
+    },
 
-      Array.prototype.map.call(target_dom, function(el, index){
-        if ( el.children.length > 0 ||  !el.innerHTML.length ) return;
-        var daken_str = el.innerHTML;
-        var daken_strs = daken_str.split('');
+    /**
+    * @param  {string} selector
+    * @param  {object} param
+    * @param  {function} callback
+    * @return void
+    */
+    run: function (target, param, callback) {
+      var that = this;
+      var param = this._checkParam(target, param);
+      target = typeof(target) === 'string' ? target : '[' + param.dakenDataAttr + ']';
+      var daken_timers = [];
+      var daken_elements = '<span class="daken-target"></span><span class="daken-cursor">|</span>';
+
+      Array.prototype.map.call(document.querySelectorAll(target), function(el, index){
+        if ( el.children.length > 0 || !el.innerHTML.length ) return;
+        // get a typing string
+        var daken_strs = el.innerHTML.split('');
         var str = '';
-        el.innerHTML = '<span class="daken-target"></span>' + dake_cursor;
-        daken_timer = setInterval(function(){
-          var timer_id = index;
+        var type_interval = '';
+        el.innerHTML = daken_elements;
+
+        type_interval = setInterval(function(){
           str += daken_strs.shift();
           el.firstChild.innerHTML = str;
           if (!daken_strs.length) {
-            clearInterval(daken_timers[timer_id]);
+            clearInterval(daken_timers[index]);
             that._blink(el.lastChild, param);
             if (typeof(callback) === 'function') setTimeout(callback, param.callbackDelay);
           }
         }, param.typeSpeed);
-        daken_timers.push(daken_timer);
+
+        daken_timers.push(type_interval);
       });
 
     },
 
+    /**
+    * @param  {object} param
+    * @return void
+    */
     setParam: function (param) {
       this.param = this._obj_update(this.DEFAULT_PARAM, param);
     },
 
+    /**
+    * @param  {object} param
+    * @return void
+    */
     resetParam: function () {
       this.param = this.DEFAULT_PARAM;
     },
-
 };
+
+module.exports = daken;
+
 
 },{}]},{},[1]);
