@@ -17,7 +17,8 @@ Simple javascript library of typing effect.
 
 ## methods
 
-### run([selector], [options], [callback])
+### run([selector], [opt], [cb])
+### runStr(typeMessage,[selector], [opt], [cb])
 ### setParam([options])
 ### resetParam([options])
 

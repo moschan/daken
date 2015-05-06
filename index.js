@@ -53,6 +53,22 @@ var daken = {
     },
 
     /**
+    * @param  {string} type message
+    * @param  {string} selector
+    * @param  {object} param
+    * @param  {function} callback
+    * @return void
+    */
+    runStr: function (type_string, target, param, callback) {
+      var param = this._checkParam(target, param);
+      target = typeof(target) === 'string' ? target : '[' + param.dakenDataAttr + ']';
+      Array.prototype.map.call(document.querySelectorAll(target), function(el, index){
+        el.innerHTML = type_string;
+      });
+      this.run(target, param, callback);
+    },
+
+    /**
     * @param  {string} selector
     * @param  {object} param
     * @param  {function} callback

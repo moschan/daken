@@ -2,6 +2,7 @@
 var daken = require('../index.js');
 
 daken.run();
+// daken.runStr('type from runStr method!');
 
 },{"../index.js":2}],2:[function(require,module,exports){
 'use strict';
@@ -56,6 +57,22 @@ var daken = {
       param = typeof(target) === 'object' ? target : undefined;
       param = this._objctUpdate(this.DEFAULT_PARAM, param);
       return param;
+    },
+
+    /**
+    * @param  {string} type message
+    * @param  {string} selector
+    * @param  {object} param
+    * @param  {function} callback
+    * @return void
+    */
+    runStr: function (type_string, target, param, callback) {
+      var param = this._checkParam(target, param);
+      target = typeof(target) === 'string' ? target : '[' + param.dakenDataAttr + ']';
+      Array.prototype.map.call(document.querySelectorAll(target), function(el, index){
+        el.innerHTML = type_string;
+      });
+      this.run(target, param, callback);
     },
 
     /**
