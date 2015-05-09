@@ -2,6 +2,7 @@
 Simple javascript library of typing effect.
 
 [![Build Status](https://travis-ci.org/moschan/daken.svg)](https://travis-ci.org/moschan/daken)
+[![NPM](https://nodei.co/npm/daken.png)](https://nodei.co/npm/daken/)
 
 ## example
 
