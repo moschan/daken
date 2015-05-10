@@ -16,16 +16,10 @@ var daken = {
 
     param: null,
 
-    /**
-    * @param  {element} el
-    * @param  {object} param
-    * @return {void}
-    */
-    _blink: function(el, param) {
-      var that = this;
-      el.style.opacity = !parseInt(el.style.opacity) ? 1 : 0;
-      var timeout = setTimeout(function(){that._blink(el, param);}, param.blinkInterval);
-    },
+    state: [],
+
+    timers: [],
+
 
     /**
     * @param  {object} default_param
@@ -53,6 +47,46 @@ var daken = {
     },
 
     /**
+    * @param  {element} el
+    * @param  {object} param
+    * @return {void}
+    */
+    _blink: function(el, param) {
+      var that = this;
+      el.style.opacity = !parseInt(el.style.opacity) ? 1 : 0;
+      var timeout = setTimeout(function(){that._blink(el, param);}, param.blinkInterval);
+    },
+
+    /**
+    * @param  {element} target element of typing effect
+    * @param  {int} element id
+    * @return void
+    */
+    _initializeState: function (element, stateId) {
+      var daken_elements = '<span class="daken-target"></span><span class="daken-cursor">|</span>';
+      this.state[stateId]= {
+        element: element,
+        worded:  '',
+        word:    element.innerHTML.split('')
+      };
+      element.innerHTML = daken_elements;
+    },
+
+    /**
+    * @param  {int} element of update
+    * @return void
+    */
+    _updateUI: function (stateId, param) {
+      this.state[stateId].worded += this.state[stateId].word.shift();
+      this.state[stateId].element.firstChild.innerHTML = this.state[stateId].worded;
+      if (!this.state[stateId].word.length) {
+        clearInterval(this.timers[stateId]);
+        this._blink(this.state[stateId].element.lastChild, param);
+        if (typeof(callback) === 'function') setTimeout(callback, param.callbackDelay);
+      }
+    },
+
+    /**
     * @param  {string} selector
     * @param  {object} param
     * @param  {function} callback
@@ -62,30 +96,14 @@ var daken = {
       var that = this;
       var param = this._checkParam(target, param);
       target = typeof(target) === 'string' ? target : '[' + param.dakenDataAttr + ']';
-      var daken_timers = [];
-      var daken_elements = '<span class="daken-target"></span><span class="daken-cursor">|</span>';
 
       Array.prototype.map.call(document.querySelectorAll(target), function(el, index){
         if ( el.children.length > 0 || !el.innerHTML.length ) return;
-        // get a typing string
-        var daken_strs = el.innerHTML.split('');
-        var str = '';
-        var type_interval = '';
-        el.innerHTML = daken_elements;
-
-        type_interval = setInterval(function(){
-          str += daken_strs.shift();
-          el.firstChild.innerHTML = str;
-          if (!daken_strs.length) {
-            clearInterval(daken_timers[index]);
-            that._blink(el.lastChild, param);
-            if (typeof(callback) === 'function') setTimeout(callback, param.callbackDelay);
-          }
-        }, param.typeSpeed);
-
-        daken_timers.push(type_interval);
+        that._initializeState(el, index);
+        that.timers.push( setInterval(function(){
+          that._updateUI(index, param);
+        }, param.typeSpeed) );
       });
-
     },
 
     /**
