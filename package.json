@@ -1,6 +1,6 @@
 {
   "name": "daken",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple javascript library of typing effect.",
   "main": "index.js",
   "directories": {

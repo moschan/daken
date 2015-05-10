@@ -35,7 +35,9 @@ Simple javascript library of typing effect.
 ```
 
 ## install
+```
 npm install daken
+```
 
 ## license
 MIT
